@@ -8,7 +8,7 @@ const FETCH_NOTES_SUCCESS = 'notes/FETCH_NOTES_SUCCESS';
 const FETCH_NOTES_FAILURE = 'notes/FETCH_NOTES_FAILURE';
 const FETCH_NOTE_SINGLE = 'notes/FETCH_NOTE_SINGLE';
 
-const ROOT_URL = 'http://primeword-backend.doctorf.xyz';
+const ROOT_URL = 'https://primeword-backend.doctorf.xyz';
 const API_AUTH = '';
 
 

@@ -11,7 +11,7 @@ const FETCH_WORDS_BY_NOTE_FAILURE = 'words/FETCH_WORDS_BY_NOTE_FAILURE';
 
 const CHECK_WORD_KNOWN = 'words/CHECK_WORD_KNOWN';
 
-const ROOT_URL = 'http://primeword-backend.doctorf.xyz';
+const ROOT_URL = 'https://primeword-backend.doctorf.xyz';
 
 export const fetchWords = () => (dispatch, getState) => {
 	dispatch({type: FETCH_WORDS_START});
