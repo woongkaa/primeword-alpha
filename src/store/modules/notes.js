@@ -3,10 +3,12 @@
 import axios from 'axios';
 import { combineReducers } from 'redux';
 
-const FETCH_NOTES_START = 'notes/FETCH_NOTES_START';
-const FETCH_NOTES_SUCCESS = 'notes/FETCH_NOTES_SUCCESS';
-const FETCH_NOTES_FAILURE = 'notes/FETCH_NOTES_FAILURE';
-const FETCH_NOTE_SINGLE = 'notes/FETCH_NOTE_SINGLE';
+export const FETCH_NOTES_START = 'notes/FETCH_NOTES_START';
+export const FETCH_NOTES_SUCCESS = 'notes/FETCH_NOTES_SUCCESS';
+export const FETCH_NOTES_FAILURE = 'notes/FETCH_NOTES_FAILURE';
+export const FETCH_SINGLE_NOTE_START = 'notes/FETCH_SINGLE_NOTE_START';
+export const FETCH_SINGLE_NOTE_SUCCESS = 'notes/FETCH_SINGLE_NOTE_SUCCESS';
+export const FETCH_SINGLE_NOTE_FAILURE = 'notes/FETCH_SINGLE_NOTE_FAILURE';
 
 const ROOT_URL = 'https://primeword-backend.doctorf.xyz';
 const API_AUTH = '';
@@ -37,6 +39,29 @@ export const fetchNotes = () => (dispatch, getState) => {
 		});
 	});
 };
+
+export const fetchSingleNote = (noteId) => (dispatch, getState) => {
+	dispatch({type: FETCH_SINGLE_NOTE_START});
+	const url = `${ROOT_URL}/notes/${noteId}/`;
+	return axios({
+		method: 'get',
+		url,
+	})
+	.then(({ data }) => {
+		console.log('successfully fetched single note', data);
+		dispatch({
+			type: FETCH_SINGLE_NOTE_SUCCESS,
+			payload: data,
+			noteId,
+		});
+	})
+	.catch(response => {
+		console.log('failed to fetch single note', response);
+		dispatch({
+			type: FETCH_SINGLE_NOTE_FAILURE,
+		});
+	});
+}
 
 
 const initialState = {

@@ -5,12 +5,23 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import { withStyles } from 'material-ui/styles';
 
+const styles = theme => ({
+	appBar: {
+		position: 'absolute',
+		transition: theme.transitions.create(['margin', 'width'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		})
+	},
+});
 
 class Header extends Component {
 	render() {
+		const { classes } = this.props;
 		return (
-			<AppBar>
+			<AppBar className={classes.appBar}>
 				<Toolbar>
 					<IconButton color="inherit" aria-label="Menu">
 						<MenuIcon />
@@ -24,4 +35,4 @@ class Header extends Component {
 	}
 }
 
-export default Header;
+export default withStyles(styles)(Header);

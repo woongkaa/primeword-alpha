@@ -1,57 +1,148 @@
+import { combineReducers } from 'redux';
+import { FETCH_NOTES_SUCCESS, FETCH_NOTES_FAILURE, FETCH_SINGLE_NOTE_SUCCESS } from 'store/modules/notes';
+import { FETCH_WORDS_SUCCESS } from 'store/modules/words';
+
+const FETCH_NOTES_BY_USERID_SUCCESS = 'user/FETCH_NOTES_BY_USERID_SUCCESS';
 const CHECK_WORD_KNOWN = 'user/CHECK_WORD_KNOWN';
-const CHECK_WORD_UNKNWON = 'user/CHECK_WORD_UNKNWON';
+const CHECK_WORD_UNKNOWN = 'user/CHECK_WORD_UNKNOWN';
+const UPDATE_KNOWN = 'user/UPDATE_KNOWN';
+const UPDATE_UNKNOWN = 'user/UPDATE_UNKNOWN';
+const NEXT_STEP = 'user/NEXT_STEP';
 
 // action creators
-export const checkWordKnown = (wordId) => (dispatch, getState) => {
+export const updateUnknown = (noteId, wordId) => (dispatch, getState) => {
 	dispatch({
-		type: CHECK_WORD_KNOWN,
-		wordId,
-	});
+		type: UPDATE_UNKNOWN,
+		noteId,
+		wordId
+	})
 }
 
-export const checkWordUnknown = (wordId) => (dispatch, getState) => {
+export const updateKnown = (noteId, wordId) => (dispatch, getState) => {
 	dispatch({
-		type: CHECK_WORD_UNKNWON,
-		wordId,
-	});
+		type: UPDATE_KNOWN,
+		noteId,
+		wordId
+	})
+}
+
+export const nextStep = (noteId) => (dispatch, getState) => {
+	dispatch({
+		type: NEXT_STEP,
+		noteId
+	})
 }
 
 const initialState = {
-	id: null,
-	academyId: null,
-	wordsIdsKnown: [],
-	wordsIdsUnknown: [],
+	user: null,
+	notes: {},
 }
 
-const user = (state = initialState, action) => {
+/*유저의 노트별 학습정보*/
+const _note = (state = {}, action) => {
 	switch (action.type) {
-		case CHECK_WORD_KNOWN:
-			if(state.wordsIdsKnown.indexOf(action.wordId) === -1){
-				return {
-					...state,
-					wordsIdsKnown: [...state.wordsIdsKnown, action.wordId]
-				}
-			} else {
-				return state;
-			}
-		case CHECK_WORD_UNKNWON:
-			if(state.wordsIdsKnown.indexOf(action.wordId) === -1){
-				return {
-					...state,
-					wordsIdsUnknown: [...state.wordsIdsUnknown, action.wordId]
-				}
+		case FETCH_NOTES_SUCCESS:
+		case FETCH_NOTES_BY_USERID_SUCCESS:
+			return {
+				...state,
+				step: 0,
+				unknownWords: []
 			}
 		default:
 			return state;
 	}
 }
 
-export const getKnownWordsIds = (state) => {
-	return state.wordsIdsKnown;
+/** 
+* @description 유저의 노트학습정보를 처리하는 리듀서
+* @todo 이미 학습이 이루어진 노트에 대해서만 업데이트 제외
+*/
+const notes = (state = initialState.notes, action) => {
+	switch (action.type) {
+		case FETCH_NOTES_SUCCESS:
+		case FETCH_NOTES_BY_USERID_SUCCESS:
+			if(Object.keys(state).length == 0) { 
+				return action.payload.reduce((nextState, note) => {
+					nextState[note.id] = {
+						...note,
+						step: 0,
+						unknownWords: []
+					};
+					return nextState;
+				}, {...state});
+			} else {
+				return state;
+			}
+		case FETCH_SINGLE_NOTE_SUCCESS:
+			if(Object.keys(state).indexOf(action.noteId) === -1 ){
+				return {
+					...state,
+					[action.noteId]: {
+						...action.payload,
+						step: 0, 
+						unknownWords: []
+					}
+				}
+			} else {
+				return state;
+			}
+		case UPDATE_KNOWN: 
+			if(state[action.noteId].unknownWords.indexOf(action.wordId) >= 0) {
+				return {
+					...state,
+					[action.noteId]: {
+						...state[action.noteId],
+						unknownWords: state[action.noteId].unknownWords.filter(id => id !== action.wordId)
+					}
+				}
+			} else {
+				return state;
+			}
+		case UPDATE_UNKNOWN:
+			if(state[action.noteId].unknownWords.indexOf(action.wordId) === -1) {
+				return {
+					...state,
+					[action.noteId]: {
+						...state[action.noteId],
+						unknownWords: [...state[action.noteId].unknownWords, action.wordId]
+					}
+				}
+			} else {
+				return state;
+			}
+		case NEXT_STEP:
+			return {
+				...state,
+				[action.noteId]: {
+					...state[action.noteId],
+					step: state[action.noteId].step + 1
+				}
+			}
+
+		default:
+			return state;
+	}
 }
 
-export const getUnknownWordsIds = (state) => {
-	return state.wordsIdsUnknown;
+const user = (state = initialState, action) => {
+	switch (action.type) {
+		default:
+			return state;
+	}
 }
 
-export default user;
+export const getUnknownWordsIdsByNoteId = (state, noteId) => {
+	return state.notes[noteId].unknownWords;
+}
+/*
+* @description
+* @todo step을 api로부터 받아올 수 있어야 합니다
+*/
+export const getCurrentStep = (state, noteId) => {
+	if(state.notes[noteId] === undefined) {
+		return 0;
+	}
+	return state.notes[noteId].step;
+}
+
+export default combineReducers({notes, user});

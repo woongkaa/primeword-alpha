@@ -6,13 +6,35 @@ import { Route, Switch } from 'react-router-dom';
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import teal from 'material-ui/colors/teal';
+import { withStyles } from 'material-ui/styles';
 
 import HeaderContainer from './HeaderContainer';
 import Home from 'pages/Home';
 import NoteSingle from 'pages/NoteSingle';
 import NoteList from 'pages/NoteList';
 
-const Root = ({store, history}) => {
+const styles = theme => ({
+	root: {
+		flexGrow: 1,
+		zIndex: 1,
+		overflow: 'hidden',
+		position: 'relative',
+		display: 'flex',
+	},
+	toolbar: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		padding: '0 8px',
+		...theme.mixins.toolbar,
+	},
+	content: {
+		flexGrow: 1, 
+		padding: theme.spacing.unit * 3,
+	},
+});
+
+const Root = ({store, history, classes}) => {
 	const theme = createMuiTheme({
 		palette: {
 			primary: teal,
@@ -22,13 +44,14 @@ const Root = ({store, history}) => {
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
 				<MuiThemeProvider theme={theme}>
-					<div>
+					<div className={classes.root}>
 						<HeaderContainer />
-						<div style={{ paddingTop: '4em'}}>
+						<main className={classes.content}>
+							<div className={classes.toolbar} />
 							<Route exact path="/" component={Home}/>
 							<Route path="/notes" component={NoteList}/>
 							<Route path="/note/:id" component={NoteSingle}/>
-						</div>
+						</main>
 					</div>
 				</MuiThemeProvider>
 			</ConnectedRouter>
@@ -40,4 +63,4 @@ Root.propTypes = {
 	store: PropTypes.object.isRequired,
 }
 
-export default Root;
+export default withStyles(styles)(Root);

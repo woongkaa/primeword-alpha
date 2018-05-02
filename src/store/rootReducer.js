@@ -27,17 +27,12 @@ export const getWordsByNoteId = (state, noteId) => {
 	return fromWords.getWordsByNoteId(state.words, noteId);
 }
 
-export const getWordsKnownByUser = (state) => {
-	//유저가 아는 단어들
-	//전체 단어 중에 user가 안다고 체크한 아이디 목록에 있으면, 찾아서 리턴. 
-	const knownWordsIds = fromUser.getKnownWordsIds(state.currentUser);
-	const words = fromWords.getWordsByIds(state.words, knownWordsIds);
+export const getWordsUnknownByNoteId = (state, noteId) => {
+	const unknownWordsIds = fromUser.getUnknownWordsIdsByNoteId(state.currentUser, noteId);
+	const words = fromWords.getWordsByIds(state.words, unknownWordsIds);
 	return words;
 }
 
-export const getWordsUnknownByUser = (state) => {
-	//유저가 모르는 단어들
-	const unknownWordsIds = fromUser.getUnknownWordsIds(state.currentUser);
-	const words = fromWords.getWordsByIds(state.words, unknownWordsIds);
-	return words;
+export const getCurrentStep = (state, noteId) => {
+	return fromUser.getCurrentStep(state.currentUser, noteId);
 }

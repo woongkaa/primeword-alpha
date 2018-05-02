@@ -73,29 +73,36 @@ class WordSlideItem extends Component {
 				return;
 		}
 		return (
-			<ButtonBase 
-				focusRipple  
-				onClick={this.handleCardClick}>
-				<Card className={cardClassname}>
-					<CardContent>
-						<span className={classes.wordText}>
-							<Typography variant="headline" component="h2" gutterBottom>
-								{word}
-							</Typography>
-							{renderMeaning(this.state.isComplete)}
-						</span>
-						<span className={classes.wordText}>
-						</span>
-					</CardContent>
-				</Card>
-			</ButtonBase>
+			<div className={classes.root}>
+				<ButtonBase 
+					focusRipple  
+					onClick={this.handleCardClick}
+					disabled={this.state.isComplete}
+					className={classes.cardWrapper}>
+					<Card className={cardClassname}>
+						<CardContent>
+							<span className={classes.wordText}>
+								<Typography variant="headline" component="h2" gutterBottom>
+									{word}
+								</Typography>
+								{renderMeaning(this.state.isComplete)}
+							</span>
+							<span className={classes.wordText}>
+							</span>
+						</CardContent>
+					</Card>
+				</ButtonBase>
+			</div>
 		);
 	}
 }
 
 const styles = (theme) => ({
+	cardWrapper: {
+		width: "100%",
+	},
 	card: {
-		minWidth: "75vw",
+		width: "100%",
 		minHeight: "50vh"
 	},
 	cardSuccess: {

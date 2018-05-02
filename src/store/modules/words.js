@@ -11,29 +11,13 @@ const FETCH_WORDS_BY_NOTE_FAILURE = 'words/FETCH_WORDS_BY_NOTE_FAILURE';
 
 const CHECK_WORD_KNOWN = 'words/CHECK_WORD_KNOWN';
 
-const ROOT_URL = 'https://primeword-backend.doctorf.xyz';
-
-export const fetchWords = () => (dispatch, getState) => {
-	dispatch({type: FETCH_WORDS_START});
-	const url = `${ROOT_URL}/words/?limit=50&offset=0`;
-	return axios({
-		method: 'get',
-		url,
-	})
-	.then(({ data }) => {
-		console.log('successfully fetched words', data);
-		dispatch({
-			type: FETCH_WORDS_SUCCESS,
-			payload: data.results
-		});
-	})
-	.catch(response => {
-		console.log('failed to fetch words', response);
-		dispatch({
-			type: FETCH_WORDS_FAILURE,
-		});
-	});
+export {
+	FETCH_WORDS_START,
+	FETCH_WORDS_SUCCESS,
+	FETCH_WORDS_FAILURE
 }
+
+const ROOT_URL = 'https://primeword-backend.doctorf.xyz';
 
 export const fetchWordsByNoteId = (noteId) => (dispatch, getState) => {
 	dispatch({type: FETCH_WORDS_BY_NOTE_START});
