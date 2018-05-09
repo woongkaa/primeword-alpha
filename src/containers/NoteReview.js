@@ -19,15 +19,15 @@ class NoteReview extends Component {
 	}
 
 	render() {
-		const { words, currentStep } = this.props;
+		const { unknownWords, currentStep } = this.props;
 		const isLastStep = currentStep === 2;
 	
-		const renderList = words.length < 1 ? (
+		const renderList = unknownWords.length < 1 ? (
 			<div>복습할 단어가 없습니다.</div>
 		) : (
 			<List>
 				<ListSubheader>모르는 단어 듣기학습</ListSubheader>
-				{ words.map((word, index) => (
+				{ unknownWords.map((word, index) => (
 					<WordListItem {...word} key={index}
 					/>))
 				}
@@ -35,31 +35,16 @@ class NoteReview extends Component {
 		)
 
 		return (
-			<div className="NoteReview__root">
-				{ renderList }		
-				<div className="Button__wrapper">
-					{ currentStep === 3 ? (
-						<div>
-							단어장 학습을 마쳤습니다.
-						</div>
-					) : (
-						<Button
-							variant="raised"
-							color="primary"
-							onClick={this.handleNextClick}
-							className="">
-							{ isLastStep ? 'FINISH THIS NOTE' : 'NEXT STEP'}
-						</Button>
-					)}
-				</div>
+			<div>
+				{ renderList }
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state, {noteId}) => {
+const mapStateToProps = (state, { id }) => {
 	return {
-		words: getWordsUnknownByNoteId(state, noteId)
+		unknownWords: getWordsUnknownByNoteId(state, id)
 	};
 }
 

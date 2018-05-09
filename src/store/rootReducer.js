@@ -3,18 +3,23 @@ import { routerReducer } from 'react-router-redux';
 import notesReducer, * as fromNotes from './modules/notes';
 import wordsReducer, * as fromWords from './modules/words';
 import userReducer, * as fromUser from './modules/user';
+import uiReducer, * as fromUI from './modules/ui';
 
 const rootReducer = combineReducers({
 	routing: routerReducer,
 	currentUser: userReducer,
 	notes: notesReducer,
 	words: wordsReducer,
-	pageTitle: '',
+	ui: uiReducer,
 });
 
 export default rootReducer;
 
 //Match selectors to each module.
+export const getNoteById = (state, noteId) => {
+	return fromNotes.getNoteById(state, noteId);
+}
+
 export const getAllNotes = (state) => {
 	return fromNotes.getAllNotes(state.notes);
 }
@@ -33,6 +38,14 @@ export const getWordsUnknownByNoteId = (state, noteId) => {
 	return words;
 }
 
+export const getUserNoteById = (state, noteId) => {
+	return fromUser.getUserNoteById(state.currentUser, noteId);
+}
+
 export const getCurrentStep = (state, noteId) => {
 	return fromUser.getCurrentStep(state.currentUser, noteId);
+}
+
+export const getAppBarTitle = (state) => {
+	return fromUI.getAppBarTitle(state.ui);
 }

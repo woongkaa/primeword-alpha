@@ -64,14 +64,6 @@ class WordSlideItem extends Component {
 			[classes.cardSuccess]: this.state.isComplete && this.state.isKnown,
 			[classes.cardFail]: this.state.isComplete && !this.state.isKnown,
 		});
-		const renderMeaning = (isComplete) => {
-			if(isComplete)
-				return (
-					<Typography variant="subheading" component="h3">{this.props.meaning}</Typography>
-				);
-			else
-				return;
-		}
 		return (
 			<div className={classes.root}>
 				<ButtonBase 
@@ -81,14 +73,12 @@ class WordSlideItem extends Component {
 					className={classes.cardWrapper}>
 					<Card className={cardClassname}>
 						<CardContent>
-							<span className={classes.wordText}>
 								<Typography variant="headline" component="h2" gutterBottom>
 									{word}
 								</Typography>
-								{renderMeaning(this.state.isComplete)}
-							</span>
-							<span className={classes.wordText}>
-							</span>
+								{ this.state.isComplete && (
+									<Typography variant="subheading" component="h3">{this.props.meaning}</Typography>
+								)}
 						</CardContent>
 					</Card>
 				</ButtonBase>

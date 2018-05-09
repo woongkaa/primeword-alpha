@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, Route } from 'react-router-dom';
 
 import { fetchWordsByNoteId } from 'store/modules/words';
 import { fetchSingleNote } from 'store/modules/notes';
-import { getWordsByNoteId, getWordsUnknownByNoteId, getCurrentStep } from 'store/rootReducer';
+import { updateAppBarTitle } from 'store/modules/ui';
+import { getUserNoteById, getCurrentStep } from 'store/rootReducer';
 
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
+import NoteNavigation, { BottomNavigationAction as NoteNavigationAction } from 'material-ui/BottomNavigation';
 import HearingIcon from 'material-ui-icons/Hearing';
 import CheckIcon from 'material-ui-icons/Spellcheck';
 import InfoIcon from 'material-ui-icons/InfoOutline';
@@ -16,18 +16,34 @@ import InfoIcon from 'material-ui-icons/InfoOutline';
 import NoteStudy from 'containers/NoteStudy';
 import NoteReview from 'containers/NoteReview';
 import StepperBox from 'components/StepperBox';
+import Spinner from 'components/Spinner';
 
 
 const styles = theme => ({
-	root: {},
-	content: {},
-	bottomNav: {
-		position: 'fixed',
-		bottom: 0,
+	root: {
+		width: '100%',
+	},
+	content: {
+		width: '100%',
+	},
+	toolbar: {
+		...theme.mixins.toolbar,
+	},
+	noteNav: {
+		position: 'absolute',
+		zIndex: '1100',
+		top: 56,
 		left: 0,
 		right: 0,
 		boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);'
 	},
+	spinnerRoot: {
+		left: 0, right: 0, top: 0, bottom: 0,
+		position: 'absolute',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}
 });
 
 class NoteSingle extends Component {
@@ -35,37 +51,51 @@ class NoteSingle extends Component {
 		super(props);
 
 		this.state = {
-			mode: "info"
+			view: "info"
 		}
 	}
 
 	componentWillMount() {
 		const noteId = this.props.match.params.id;
-		this.props.fetchWordsByNoteId(noteId);
 		this.props.fetchSingleNote(noteId);
+		this.props.fetchWordsByNoteId(noteId);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.note!==null) {
+			this.props.updateAppBarTitle(nextProps.note.lesson);
+		}
 	}
 
 	handleChange = (event, value) => {
 		this.setState({
-			mode: value
+			view: value
 		});
 	};
 
-	renderContent = (mode) => {
-		const { match, words, currentStep } = this.props;
-		const noteId = match.params.id;
-		switch (mode) {
+	renderContent = (view) => {
+		const { match, note, words, currentStep } = this.props;
+		switch (view) {
 			case "info":
 				return (
 					<div>노트기본정보</div>
 				);
-			case "check":
+			case "study":
 				return (
-					<NoteStudy noteId={noteId} words={words} currentStep={currentStep}/>
+					<NoteStudy
+						{...note}
+						noteId={note.id}
+						words={words}
+						currentStep={currentStep}
+						onComplete={()=>this.setState({view: "info"})}
+					/>
 				);
-			case "listen":
+			case "review":
 				return (
-					<NoteReview noteId={noteId} currentStep={currentStep}/>
+					<NoteReview
+						{...note}
+						noteId={note.id}
+						currentStep={currentStep}/>
 				);
 			default:
 				return (
@@ -75,44 +105,69 @@ class NoteSingle extends Component {
 	}
 
 	render() {
-		const { match, words, currentStep, classes } = this.props;
-		const { mode } = this.state;
+		const { match, note, currentStep, classes } = this.props;
+		const { view } = this.state;
 		const isComplete = currentStep > 2 ? true : false;
-		const noteId = match.params.id;
-		const content = mode === "check" ? (
-			<NoteStudy noteId={noteId} words={words} currentStep={currentStep}/>
-		) : (
-			<NoteReview noteId={noteId} currentStep={currentStep}/>
-		);
+
+		if(!note) {
+			return (
+				<div className={classes.spinnerRoot}>
+					<Spinner />
+				</div>
+			);
+		}
+
 		return (
 			<div className={classes.root}>
-				<Typography variant="headline" component="h1">NOTE {noteId}</Typography>
-				<StepperBox currentStep={currentStep} />
-				<div className={classes.content}>
-					{ this.renderContent(mode) }
-				</div>
-				<BottomNavigation
-					value={mode}
+				<div className={classes.toolbar}></div>
+				<NoteNavigation
+					value={view}
 					onChange={this.handleChange}
 					showLabels
-					className={classes.bottomNav}>
-					<BottomNavigationAction label="노트정보" value="info" icon={<InfoIcon />} />
-					<BottomNavigationAction label="체크하기" value="check" icon={<CheckIcon />} />
-					<BottomNavigationAction label="듣기" value="listen" icon={<HearingIcon />} />
-				</BottomNavigation>
+					className={classes.noteNav}>
+					<NoteNavigationAction
+						label="노트정보"
+						value="info"
+						icon={<InfoIcon />} 
+					/>
+					<NoteNavigationAction
+						label="체크&학습"
+						value="study"
+						icon={<CheckIcon />} 
+					/>
+					<NoteNavigationAction
+						label="복습"
+						value="review"
+						icon={<HearingIcon />} 
+					/>
+				</NoteNavigation>
+				{ view === "info" && (
+					<div>
+						<Typography
+							variant="title"
+							component="h2">
+							학습현황
+						</Typography>
+						<StepperBox currentStep={currentStep} />
+					</div>
+				)}
+				<div className={classes.content}>
+					{ this.renderContent(view) }
+				</div>
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state, {match}) => {
+	const noteId = match.params.id;
 	return {
-		words: getWordsByNoteId(state, match.params.id),
-		currentStep: getCurrentStep(state, match.params.id)
+		note: getUserNoteById(state, noteId),
+		currentStep: getCurrentStep(state, noteId)
 	};
 }
 
 export default connect(
 	mapStateToProps, 
-	{ fetchWordsByNoteId, fetchSingleNote }
+	{ fetchWordsByNoteId, fetchSingleNote, updateAppBarTitle }
 )(withStyles(styles)(NoteSingle));

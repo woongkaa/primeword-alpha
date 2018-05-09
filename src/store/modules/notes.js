@@ -98,8 +98,8 @@ export const getNotesByAcademyId = (state, academyId) => {
 	return notes;
 }
 
-export const getNoteById = (state, id) => {
-	//id에 해당하는 노트를 리턴
+export const getNoteById = (state, noteId) => {
+	return state.byId[noteId] || null;
 }
 
 export default combineReducers({

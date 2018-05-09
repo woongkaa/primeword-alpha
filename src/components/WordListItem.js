@@ -27,8 +27,10 @@ class WordListItem extends Component {
 			<ListItem button>
 				<Avatar>adv</Avatar>
 				<ListItemText 
-					primary={`단어 ${word}`}
-					secondary={`뜻 ${meaning}`}
+					// primary={`단어 ${word}`}
+					primary={word}
+					// secondary={`뜻 ${meaning}`}
+					secondary={meaning}
 				/>
 				<IconButton color="primary" aria-label="Text to Voice" onClick={this.handleVoiceButtonClick}>
 					<MicIcon />

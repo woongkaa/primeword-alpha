@@ -19,10 +19,11 @@ class NoteListContainer extends Component {
 	}
 
 	render() {
+		const { notes } = this.props;
 		return (
 			<List>
 				<ListSubheader component="div">교과서명</ListSubheader>
-				{ this.props.notes.map((note, index) => {
+				{ notes.map((note, index) => {
 					return(
 						<Link to={`/note/${note.id}`} key={note.id}>
 							<ListItem button>
@@ -30,7 +31,7 @@ class NoteListContainer extends Component {
 									<AssignmentIcon/>
 								</Avatar>
 								<ListItemText 
-									primary={`노트이름 or lesson ${note.lesson}`}
+									primary={`단어장 <${note.lesson}>`}
 									secondary={`기타정보 ex. 진행율/성적`}/>
 							</ListItem>
 						</Link>
@@ -44,7 +45,6 @@ class NoteListContainer extends Component {
 const mapStateToProps = (state) => {
 	return {
 		notes: getAllNotes(state),
-		// notes: getNotesByTextBookId(state)
 	};
 }
 

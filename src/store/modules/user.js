@@ -46,7 +46,7 @@ const _note = (state = {}, action) => {
 			return {
 				...state,
 				step: 0,
-				unknownWords: []
+				unknownWordsIds: []
 			}
 		default:
 			return state;
@@ -66,7 +66,7 @@ const notes = (state = initialState.notes, action) => {
 					nextState[note.id] = {
 						...note,
 						step: 0,
-						unknownWords: []
+						unknownWordsIds: []
 					};
 					return nextState;
 				}, {...state});
@@ -80,31 +80,31 @@ const notes = (state = initialState.notes, action) => {
 					[action.noteId]: {
 						...action.payload,
 						step: 0, 
-						unknownWords: []
+						unknownWordsIds: []
 					}
 				}
 			} else {
 				return state;
 			}
 		case UPDATE_KNOWN: 
-			if(state[action.noteId].unknownWords.indexOf(action.wordId) >= 0) {
+			if(state[action.noteId].unknownWordsIds.indexOf(action.wordId) >= 0) {
 				return {
 					...state,
 					[action.noteId]: {
 						...state[action.noteId],
-						unknownWords: state[action.noteId].unknownWords.filter(id => id !== action.wordId)
+						unknownWordsIds: state[action.noteId].unknownWordsIds.filter(id => id !== action.wordId)
 					}
 				}
 			} else {
 				return state;
 			}
 		case UPDATE_UNKNOWN:
-			if(state[action.noteId].unknownWords.indexOf(action.wordId) === -1) {
+			if(state[action.noteId].unknownWordsIds.indexOf(action.wordId) === -1) {
 				return {
 					...state,
 					[action.noteId]: {
 						...state[action.noteId],
-						unknownWords: [...state[action.noteId].unknownWords, action.wordId]
+						unknownWordsIds: [...state[action.noteId].unknownWordsIds, action.wordId]
 					}
 				}
 			} else {
@@ -124,7 +124,7 @@ const notes = (state = initialState.notes, action) => {
 	}
 }
 
-const user = (state = initialState, action) => {
+const account = (state = initialState, action) => {
 	switch (action.type) {
 		default:
 			return state;
@@ -132,12 +132,15 @@ const user = (state = initialState, action) => {
 }
 
 export const getUnknownWordsIdsByNoteId = (state, noteId) => {
-	return state.notes[noteId].unknownWords;
+	return state.notes[noteId].unknownWordsIds;
 }
 /*
 * @description
 * @todo step을 api로부터 받아올 수 있어야 합니다
 */
+export const getUserNoteById = (state, noteId) => {
+	return state.notes[noteId] || null;
+}
 export const getCurrentStep = (state, noteId) => {
 	if(state.notes[noteId] === undefined) {
 		return 0;
@@ -145,4 +148,4 @@ export const getCurrentStep = (state, noteId) => {
 	return state.notes[noteId].step;
 }
 
-export default combineReducers({notes, user});
+export default combineReducers({notes, account});
