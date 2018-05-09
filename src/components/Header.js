@@ -19,7 +19,7 @@ const styles = theme => ({
 
 class Header extends Component {
 	render() {
-		const { classes } = this.props;
+		const { classes, title } = this.props;
 		return (
 			<AppBar className={classes.appBar}>
 				<Toolbar>
@@ -27,7 +27,7 @@ class Header extends Component {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="title" color="inherit">
-						PRIME WORD
+						{title}
 					</Typography>
 				</Toolbar>
 			</AppBar>
