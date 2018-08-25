@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "1.0.0",
+    "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
+    "material-auto-rotating-carousel": "^2.0.0",
     "material-ui": "^1.0.0-beta.40",
     "material-ui-icons": "^1.0.0-beta.36",
     "prop-types": "^15.6.1",

@@ -7,15 +7,17 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import CheckCircle from 'material-ui-icons/CheckCircle';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import CheckCircle from '@material-ui/icons/CheckCircle';
 
 import SwipeableViews from 'react-swipeable-views';
 
 // Need Split
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Badge from '@material-ui/core/Badge';
 
-
+import SplashCarousel from 'components/SplashCarousel';
 
 const Home = (props) => {
 	return(
@@ -41,7 +43,7 @@ const styles = theme => ({
 		paddingTop: '36px',
 		width: '100%',
 		flexGrow: 1,
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: theme.palette.background.default,
 	},
 	tabsRoot: {
 		position: 'absolute',
@@ -69,10 +71,13 @@ const styles = theme => ({
 		marginLeft: 'auto',
 		height: 32,
 		width: 32,
-	}
+	},
+	checkIconActive: {
+		color: lightBlue[500],
+	},
 });
 
-class TextBookList extends Component {
+class TextBookPage extends Component {
 	state = {
 		value: 0,
 	};
@@ -91,6 +96,7 @@ class TextBookList extends Component {
 
 		return (
 			<div className={classes.root}>
+				<SplashCarousel />
 				<AppBar position="static" className={classes.tabsRoot}>
 					<Tabs 
 						value={value} 
@@ -117,40 +123,60 @@ class TextBookList extends Component {
 					<TabContainer>
 						<div className={classes.container}>
 							<Grid container spacing={16}>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6} sm={4}>
 									<Paper className={classes.paper}>
 										<Typography variant="headline" className={classes.title}>
-											동아
+											중1
 										</Typography>
 										<IconButton className={classes.checkIcon}>
 											<CheckCircle />
 										</IconButton>
 									</Paper>
 								</Grid>
-								<Grid item xs={12} sm={4}>
-										<Paper className={classes.paper}>
-											<Typography variant="headline" className={classes.title}>
-												동아
-											</Typography>
-											<IconButton className={classes.checkIcon}>
-												<CheckCircle />
-											</IconButton>
-										</Paper>
-								</Grid>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6} sm={4}>
 									<Paper className={classes.paper}>
 										<Typography variant="headline" className={classes.title}>
-											동아
+											중2
 										</Typography>
 										<IconButton className={classes.checkIcon}>
 											<CheckCircle />
 										</IconButton>
 									</Paper>
 								</Grid>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6} sm={4}>
 									<Paper className={classes.paper}>
 										<Typography variant="headline" className={classes.title}>
-											동아
+											중3
+										</Typography>
+										<IconButton className={classes.checkIcon}>
+											<CheckCircle />
+										</IconButton>
+									</Paper>
+								</Grid>
+								<Grid item xs={6} sm={4}>
+									<Paper className={classes.paper}>
+										<Typography variant="headline" className={classes.title}>
+											고1
+										</Typography>
+										<IconButton className={classes.checkIcon}>
+											<CheckCircle />
+										</IconButton>
+									</Paper>
+								</Grid>
+								<Grid item xs={6} sm={4}>
+									<Paper className={classes.paper}>
+										<Typography variant="headline" className={classes.title}>
+											고2
+										</Typography>
+										<IconButton className={classes.checkIcon}>
+											<CheckCircle />
+										</IconButton>
+									</Paper>
+								</Grid>
+								<Grid item xs={6} sm={4}>
+									<Paper className={classes.paper}>
+										<Typography variant="headline" className={classes.title}>
+											고3
 										</Typography>
 										<IconButton className={classes.checkIcon}>
 											<CheckCircle />
@@ -163,42 +189,42 @@ class TextBookList extends Component {
 					<TabContainer>
 						<div className={classes.container}>
 							<Grid container spacing={16}>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6}>
 									<Link to="/notes">
 										<Paper className={classes.paper}>
 											<Typography variant="headline" className={classes.title}>
-												2015 수능기초 700
+												기초
 											</Typography>
 											<IconButton className={classes.checkIcon}>
-												<CheckCircle />
+												<CheckCircle color="primary" classes={{colorPrimary: classes.checkIconActive}} />
 											</IconButton>
 										</Paper>
 									</Link>
 								</Grid>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6}>
 									<Paper className={classes.paper}>
 										<Typography variant="headline" className={classes.title}>
-											2016 수능
+											입문
 										</Typography>
 										<IconButton className={classes.checkIcon}>
 											<CheckCircle />
 										</IconButton>
 									</Paper>
 								</Grid>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6}>
 									<Paper className={classes.paper}>
 										<Typography variant="headline" className={classes.title}>
-											2017 수능
+											도약
 										</Typography>
 										<IconButton className={classes.checkIcon}>
 											<CheckCircle />
 										</IconButton>
 									</Paper>
 								</Grid>
-								<Grid item xs={12} sm={4}>
+								<Grid item xs={6}>
 									<Paper className={classes.paper}>
 										<Typography variant="headline" className={classes.title}>
-											2018 3월 모의
+											완성
 										</Typography>
 										<IconButton className={classes.checkIcon}>
 											<CheckCircle />
@@ -214,4 +240,4 @@ class TextBookList extends Component {
 	}
 }
 
-export default withStyles(styles)(TextBookList);
+export default withStyles(styles)(TextBookPage);

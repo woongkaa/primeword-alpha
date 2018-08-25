@@ -62,8 +62,8 @@ class NoteStudyLearn extends Component {
 				return (
 					<StudyDialog
 						open={!this.state.started}
-						title={"모르는단어 없음"}
-						messages={"다음 단계로 넘어갑니다"}
+						title={"모르는단어가 없습니다!"}
+						messages={"지금부터 체크한 단어의 발음을 3번, 2번, 1번 차례대로 들려드립니다. 잘 듣고 암기해보세요!"}
 						action={"다음스텝"}
 						onConfirm={()=>
 							{
@@ -78,8 +78,8 @@ class NoteStudyLearn extends Component {
 					return (
 						<StudyDialog
 		          open={!this.state.started}
-		          title={`모르는단어 ${words.length}개`}
-		          messages={`발음을 듣고, 단어의 뜻을 떠올려보세요.`}
+		          title={`모르는단어는 총 ${words.length}개 입니다.`}
+		          messages={`지금부터 체크한 단어의 발음을 3번, 2번, 1번 차례대로 들려드립니다. 잘 듣고 암기해보세요!`}
 		          onConfirm={()=>this.setState({started: true})}
 		        />
 					);
@@ -88,7 +88,7 @@ class NoteStudyLearn extends Component {
 						<StudyDialog 
       				open={!this.state.started}
       				title={`뜻과 함께 듣기`}
-      				messages={`발음과 함께 단어의 뜻을 숙지하세요.`}
+      				messages={`지금부터 체크한 단어의 발음과 뜻을 3번, 2번, 1번 차례대로 들려드립니다. 잘 듣고 암기해보세요!`}
       				onConfirm={()=>this.setState({started: true})}
       			/>
 					);

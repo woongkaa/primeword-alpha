@@ -8,7 +8,7 @@ import NoteListContainer from 'containers/NoteListContainer';
 class NoteList extends Component {
 
 	componentWillMount() {
-		this.props.updateAppBarTitle('단어장 리스트');
+		this.props.updateAppBarTitle('수능 > 기초');
 	}
 	
 	render() {

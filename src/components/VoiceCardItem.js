@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import Card, { CardContent } from 'material-ui/Card';
-import ButtonBase from "material-ui/ButtonBase";
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
-import cyan from 'material-ui/colors/cyan';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import cyan from '@material-ui/core/colors/cyan';
 import VoicePlayer from './VoicePlayer';
 
 class VoiceCardItem extends Component {
@@ -16,9 +17,11 @@ class VoiceCardItem extends Component {
 		}
 	}
 
-	shouldComponentUpdate(prevProps, prevState) {
-		return (prevState !== this.state || prevProps.active !== this.props.active);
-	}
+	// shouldComponentUpdate(prevProps, prevState) {
+	// 	const hasLoopChanged = prevProps.loop !== this.props.loop;
+	// 	const hasActivated = (prevProps.active !== this.props.active) && this.props.active;
+	// 	return (prevState !== this.state || hasLoopChanged || hasActivated);
+	// }
 
 	onEnd = () => {
 		this.setState({
@@ -36,7 +39,7 @@ class VoiceCardItem extends Component {
 		var voices = [];
 		for (var i = 0; i < loop; i++) {
 			if(i===loop-1){
-				voices.push(<VoicePlayer play text={word} onEnd={this.onEnd}/>);
+				voices.push(<VoicePlayer play text={word} onEnd={this.onEnd} key={i}/>);
 				break;
 			}
 			voices.push(<VoicePlayer play text={word} key={i}/>);
@@ -49,14 +52,16 @@ class VoiceCardItem extends Component {
 								align="center"
 								variant="headline"
 								component="h2"
-								gutterBottom>
+								gutterBottom
+								style={{fontSize: '4rem'}}>
 								{word}
 							</Typography>
 							{ !wordOnly && 
 								<Typography
 									align="center"
 									variant="subheading"
-									component="h3">
+									component="h3"
+									style={{fontSize: '2rem'}}>
 									{this.props.meaning}
 								</Typography>
 							}

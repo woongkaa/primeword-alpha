@@ -17,8 +17,8 @@ class NoteStudyCheck extends Component {
 	}
 
 	_handleChangeSwiperIndex(index) {
-		// const isLastIndex = index === this.props.words.length;
-    const isLastIndex = index === 5;
+		const isLastIndex = index === this.props.words.length;
+    // const isLastIndex = index === 5;
 		if(!isLastIndex) {
 			this.setState({
 				activeIndex: index,
@@ -41,7 +41,7 @@ class NoteStudyCheck extends Component {
           <StudyDialog
             open={!this.state.started}
             title={"단어체크를 시작합니다"}
-            messages={`지금부터 ${words.length}개 단어를 체크합니다. 아는단어를 클릭해주세요.`}
+            messages={`지금부터 1번부터 ${words.length}번 까지 단어를 체크합니다. 단어의 뜻을 안다면 카드를 터치하세요!`}
             onConfirm={()=>this.setState({started: true})}
           />
         )

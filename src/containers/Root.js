@@ -4,14 +4,16 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Route, Switch } from 'react-router-dom';
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import teal from 'material-ui/colors/teal';
-import { withStyles } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import teal from '@material-ui/core/colors/teal';
+import { withStyles } from '@material-ui/core/styles';
 
 import HeaderContainer from './HeaderContainer';
-import Home from 'pages/Home';
+import TextBookList from 'pages/TextBookList';
 import NoteSingle from 'pages/NoteSingle';
 import NoteList from 'pages/NoteList';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const styles = theme => ({
 	root: {
@@ -38,18 +40,27 @@ const styles = theme => ({
 const Root = ({store, history, classes}) => {
 	const theme = createMuiTheme({
 		palette: {
-			primary: teal,
+			primary: {
+				main: '#1A237E',
+			},
+			secondary: {
+				main: '#1890FF',
+			},
+			background: {
+				default: '#fafafa',
+			},
 		},
 	});
 	return (
 		<Provider store={store}>
 			<ConnectedRouter history={history}>
 				<MuiThemeProvider theme={theme}>
+					<CssBaseline />
 					<div className={classes.root}>
 						<HeaderContainer />
 						<main className={classes.content}>
 							<div className={classes.toolbar} />
-							<Route exact path="/" component={Home}/>
+							<Route exact path="/" component={TextBookList}/>
 							<Route path="/notes" component={NoteList}/>
 							<Route path="/note/:id" component={NoteSingle}/>
 						</main>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import Card, { CardContent } from 'material-ui/Card';
-import ButtonBase from "material-ui/ButtonBase";
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
-import cyan from 'material-ui/colors/cyan';
-import pink from 'material-ui/colors/pink';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import cyan from '@material-ui/core/colors/cyan';
+import pink from '@material-ui/core/colors/pink';
 
 class WordSlideItem extends Component {
 	constructor(props) {
@@ -73,11 +74,11 @@ class WordSlideItem extends Component {
 					className={classes.cardWrapper}>
 					<Card className={cardClassname}>
 						<CardContent>
-								<Typography variant="headline" component="h2" gutterBottom>
+								<Typography variant="headline" component="h2" gutterBottom style={{fontSize: '4rem'}}>
 									{word}
 								</Typography>
 								{ this.state.isComplete && (
-									<Typography variant="subheading" component="h3">{this.props.meaning}</Typography>
+									<Typography variant="subheading" component="h3" style={{fontSize: '2rem'}}>{this.props.meaning}</Typography>
 								)}
 						</CardContent>
 					</Card>
@@ -93,7 +94,10 @@ const styles = (theme) => ({
 	},
 	card: {
 		width: "100%",
-		minHeight: "50vh"
+		minHeight: "50vh",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	cardSuccess: {
 		background: cyan[400],

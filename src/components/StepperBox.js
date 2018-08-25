@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
-import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
-import { withStyles } from 'material-ui/styles';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
 	root: {
 		// padding: '24px 0',
 	},
 	stepper: {
-		padding: '24px 0',
+		padding: '16px 24px',
+		backgroundColor: 'rgba(0,0,0,0)', 
 	},
+	stepIcon: {
+		background: '#1890FF',
+	}
 });
 
 const steps = [30, 40, 50];

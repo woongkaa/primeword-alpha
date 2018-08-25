@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ListSubheader from 'material-ui/List/ListSubheader';
-import List from 'material-ui/List';
-import Button from 'material-ui/Button';
+import List from '@material-ui/core/List';
+import Button from '@material-ui/core/Button';
 import WordListItem from 'components/WordListItem';
 
 import { nextStep } from 'store/modules/user';

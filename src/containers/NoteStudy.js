@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getWordsByNoteId, getWordsUnknownByNoteId } from 'store/rootReducer';
 import SwipeableViews from 'react-swipeable-views';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import NoteStudyCheck from 'containers/NoteStudyCheck';
 import NoteStudyLearn from 'containers/NoteStudyLearn';
 import StepperBox from 'components/StepperBox';
@@ -52,8 +52,8 @@ class NoteStudy extends Component {
 				<div className={classes.root}>
 					<StudyDialog
 						open={true}
-						title={"완료"}
-						messages={"학습을 마쳤습니다."}
+						title={"수고하셨습니다!"}
+						messages={"잘 기억이 나지 않는 단어는 상단의 '복습' 버튼을 눌러 확인해보세요!"}
 						action={"돌아가기"}
 						onConfirm={()=>this.props.onComplete()}
 					/>
