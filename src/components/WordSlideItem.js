@@ -44,18 +44,25 @@ class WordSlideItem extends Component {
 				// isKnown: false,
 			});
 			this.props.onFail();
-			setTimeout(this.props.onComplete, 1000);
-		}, 1500);
+			setTimeout(this.props.onComplete, 2000);
+		}, 2000);
 	}
 
 	_handleCardClick(e) {
 		clearTimeout(this.timer);
-		this.setState({
-			isComplete: true,
-			isKnown: true,
-		});
-		this.props.onSuccess();
-		setTimeout(this.props.onComplete, 1000);
+		if( !this.state.isKnown ){
+			this.setState({
+				isComplete: true,
+				isKnown: true,
+			});
+			this.props.onSuccess();
+		} else {
+			this.setState({
+				isKnown: false,
+			});
+			this.props.onFail();
+		}
+		setTimeout(this.props.onComplete, 2000);
 	}
 
 	render() {
@@ -70,7 +77,7 @@ class WordSlideItem extends Component {
 				<ButtonBase 
 					focusRipple  
 					onClick={this.handleCardClick}
-					disabled={this.state.isComplete}
+					disabled={this.state.isComplete&&!this.state.isKnown}
 					className={classes.cardWrapper}>
 					<Card className={cardClassname}>
 						<CardContent>

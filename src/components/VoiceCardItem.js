@@ -83,7 +83,10 @@ const styles = (theme) => ({
 	},
 	card: {
 		width: "100%",
-		minHeight: "50vh"
+		minHeight: "50vh",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	cardComplete: {
 		background: cyan[400],
